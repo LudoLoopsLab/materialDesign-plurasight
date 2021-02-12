@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
+import { User } from '../../models/user';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-new-contact-dialog',
@@ -6,9 +10,33 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./new-contact-dialog.component.scss'],
 })
 export class NewContactDialogComponent implements OnInit {
-  constructor() {}
+  user: User;
+  avatars = ['svg-1', 'svg-2', 'svg-3', 'svg-4'];
 
-  ngOnInit(): void {}
-  save(): any {}
-  dismiss(): any {}
+  constructor(
+    private dialogRef: MatDialogRef<NewContactDialogComponent>,
+    private userService: UserService
+  ) {}
+
+  name = new FormControl('', [Validators.required]);
+
+  getErrorMessage(): any {
+    return this.name.hasError('required') ? 'you must enter a name' : ' ';
+  }
+
+  ngOnInit(): void {
+    this.user = new User();
+  }
+
+  save(): any {
+    this.user.name = this.name.value;
+
+    this.userService.addUser(this.user).then((user) => {
+      this.dialogRef.close(user);
+    });
+  }
+
+  dismiss(): any {
+    this.dialogRef.close(null);
+  }
 }
