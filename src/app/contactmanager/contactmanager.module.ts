@@ -9,12 +9,17 @@ import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { MainContentComponent } from './components/main-content/main-content.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { MaterialModule } from '../shared/material.module';
+import { UserService } from './services/user.service';
+import { HttpClientModule } from '@angular/common/http';
 
 const routes: Routes = [
   {
     path: '',
     component: ContactmanagerAppComponent,
-    children: [{ path: '', component: MainContentComponent }],
+    children: [
+      { path: ':id', component: MainContentComponent },
+      { path: '', component: MainContentComponent },
+    ],
   },
 
   { path: '**', redirectTo: '' },
@@ -27,12 +32,14 @@ const routes: Routes = [
     MainContentComponent,
     SidenavComponent,
   ],
+  providers: [UserService],
   imports: [
     CommonModule,
     MaterialModule,
     FormsModule,
     FlexLayoutModule,
     RouterModule.forChild(routes),
+    HttpClientModule,
   ],
 })
 export class ContactmanagerModule {}
