@@ -26,6 +26,7 @@ export class MainContentComponent implements OnInit {
         }
         setTimeout(() => {
           this.user = this.service.userById(id);
+          console.log(this.user);
         }, 500);
       });
     });

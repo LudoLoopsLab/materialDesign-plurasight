@@ -1,11 +1,9 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from '../models/user';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Observable } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class UserService {
   // tslint:disable-next-line: variable-name
   private _users: BehaviorSubject<User[]>;
@@ -28,15 +26,15 @@ export class UserService {
   }
 
   loadAll(): any {
-    const userUrl = 'https://angular-material-api.azurewebsites.net/users';
+    const usersUrl = 'https://angular-material-api.azurewebsites.net/users';
 
-    return this.http.get<User[]>(userUrl).subscribe(
+    return this.http.get<User[]>(usersUrl).subscribe(
       (data) => {
         this.dataStore.users = data;
         this._users.next(Object.assign({}, this.dataStore).users);
       },
       (error) => {
-        console.log('failed to fetch users');
+        console.log('Failed to fetch users');
       }
     );
   }
