@@ -17,7 +17,7 @@ export class SidenavComponent implements OnInit {
   public isScreenSmall: boolean;
 
   users: Observable<User[]>;
-  isDarkTheme: boolean = false;
+  isDarkTheme = false;
 
   constructor(
     private breakpointObserver: BreakpointObserver,
